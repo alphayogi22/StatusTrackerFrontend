@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import {Grid} from 'semantic-ui-react';
+import {Grid, Container} from 'semantic-ui-react';
 import LeaveBalanceTable from './leavebalancetable';
 
 class LeaveBalance extends Component{
     render(){
         return(
            
-        <Grid columns='equal'>
+        <Grid>
           <Grid.Row>
-          <Grid.Column width={4}>
+          <Grid.Column mobile={10} tablet={6} computer={5}>
           <select class="ui fluid search selection dropdown"> 
            <option value="">Name</option>
            <option value="AS">Ashish</option>
@@ -19,8 +19,8 @@ class LeaveBalance extends Component{
            <option value="YO">Yogesh</option>
            </select>
            </Grid.Column>
-
-          <Grid.Column width={4}>
+           
+          <Grid.Column mobile={10} tablet={6} computer={5}>
           <select class="ui fluid search selection dropdown"> 
            <option value="">LeaveBalance</option>
            <option value="1">1</option>
@@ -48,8 +48,9 @@ class LeaveBalance extends Component{
            </Grid.Column>
            </Grid.Row>
 
-
+           <Container mobile={15} style={{overflowX:"auto"}}>
            <LeaveBalanceTable/>
+           </Container>
            </Grid>
         );
     }

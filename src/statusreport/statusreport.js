@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid} from 'semantic-ui-react';
+import {Grid, Container} from 'semantic-ui-react';
 import StatusReportTable from './statusreporttable';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 
@@ -7,9 +7,10 @@ import SemanticDatepicker from 'react-semantic-ui-datepickers';
 class StatusReport extends Component {
     render(){
         return(
-        <Grid columns='equal'>
+            
+        <Grid>
           <Grid.Row>
-          <Grid.Column width={4}>
+          <Grid.Column mobile={12} tablet={6} computer={2}>
           <select class="ui fluid search selection dropdown"> 
            <option value="">Name</option>
            <option value="AS">Ashish</option>
@@ -21,15 +22,15 @@ class StatusReport extends Component {
            </select>
            </Grid.Column>
 
-           <Grid.Column width={5}>
+           <Grid.Column mobile={12} tablet={6} computer={5}>
                     <SemanticDatepicker label='Start Date:' placeholder = 'Select Date' fluid id='toDate'/>
                     </Grid.Column>
 
-            <Grid.Column width={5}>
+            <Grid.Column mobile={12} tablet={6} computer={5}>
                     <SemanticDatepicker label='End Date:' placeholder = 'Select Date' fluid id='toDate'/>
             </Grid.Column>
 
-            <Grid.Column>
+            <Grid.Column mobile={12} tablet={6} computer={4}>
             <select class="ui fluid search selection dropdown"> 
            <option value="">Status</option>
            <option value="AS">Present</option>
@@ -39,7 +40,9 @@ class StatusReport extends Component {
             </Grid.Column>
            </Grid.Row>
 
+           <Container mobile={15} style={{overflowX:"auto"}}>
            <StatusReportTable/>
+           </Container>
            </Grid>
         );
     }

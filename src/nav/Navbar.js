@@ -11,8 +11,7 @@ const Navbar = (props) => {
     <React.Fragment>
 
     <Menu>
-        <Container>
-
+      <Container  mobile={12} computer={10}>
           <Menu.Item  header>
             <Image size="mini" src={require("../assests/logo/gptw_logo.png")} href="/" />
           </Menu.Item>
@@ -23,7 +22,7 @@ const Navbar = (props) => {
             </Menu.Item>
 
           </Menu.Menu>
-        </Container>
+       </Container>
       </Menu>
 
     <Sidebar.Pushable as={Segment}>

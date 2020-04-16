@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react'
 
 const LeaveBalanceTable = () => (
-    <Table celled>
+    <Table celled unstackable>
     <Table.Header>
          <Table.Row>
            <Table.HeaderCell collapsing>Sr.No.</Table.HeaderCell>
@@ -28,7 +28,7 @@ const LeaveBalanceTable = () => (
    
            <Table.Row>
            <Table.Cell collapsing>3</Table.Cell>
-             <Table.Cell>Punit</Table.Cell>
+             <Table.Cell> Punit</Table.Cell>
              <Table.Cell>15</Table.Cell>
            </Table.Row>
    

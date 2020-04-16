@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Grid, Header, Segment, Button, Label, Divider, Modal} from 'semantic-ui-react';
+import { Form, Grid, Header, Segment, Button, Label, Divider, Modal, Container} from 'semantic-ui-react';
 import TableExampleBasic from './tasktable.js';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 
@@ -43,8 +43,8 @@ class TaskManager extends Component {
 
         return (    
             <Grid columns='equal'>
-                     <Grid.Row>
-                   <Grid.Column width={4}>
+                     <Grid.Row >
+                   <Grid.Column mobile={10} tablet={6} computer={2}>
                    <select class="ui fluid search selection dropdown"> 
                     <option value="">Name</option>
                     <option value="AS">Ashish</option>
@@ -56,15 +56,15 @@ class TaskManager extends Component {
                     </select>
                     </Grid.Column>
 
-                    <Grid.Column width={5}>
+                    <Grid.Column mobile={15} tablet={6} computer={5}>
                     <SemanticDatepicker label='Start Date:' placeholder = 'Select Date' fluid id='toDate'/>
                     </Grid.Column>
 
-                    <Grid.Column width={5}>
+                    <Grid.Column  mobile={15} tablet={6} computer={5}>
                     <SemanticDatepicker label='End Date:' placeholder = 'Select Date' fluid id='toDate'/>
                     </Grid.Column>
 
-                    <Grid.Column>
+                    <Grid.Column  mobile={13} tablet={6} computer={4}>
                   
                             <Modal  
                             trigger={<Button>Add New Task</Button>}
@@ -136,8 +136,10 @@ class TaskManager extends Component {
                         
                     </Grid.Column>
                     </Grid.Row>
-                     
+
+                <Container mobile={12} style={{overflowX:"auto"}}>   
                 <TableExampleBasic/>
+                </Container>
                 </Grid>
         );
     }

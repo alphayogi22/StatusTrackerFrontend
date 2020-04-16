@@ -3,7 +3,8 @@ import { Table } from 'semantic-ui-react'
 
 
 const TableExampleBasic = () => (
-  <Table celled>
+ 
+<Table celled unstackable>
  <Table.Header>
       <Table.Row>
         <Table.HeaderCell>Task Name</Table.HeaderCell>
@@ -21,7 +22,7 @@ const TableExampleBasic = () => (
           <Table.Cell>2020/04/15</Table.Cell>
           <Table.Cell>5</Table.Cell>
           <Table.Cell>Completed</Table.Cell>
-          <Table.Cell  collapsing textAlign='right'>
+          <Table.Cell collapsing>
             <button><i className="edit icon"></i></button>
             <span> &nbsp; </span>
             <button><i className="trash icon"></i></button>
@@ -33,7 +34,7 @@ const TableExampleBasic = () => (
           <Table.Cell>2020/04/16</Table.Cell>
           <Table.Cell>15</Table.Cell>
           <Table.Cell>Working</Table.Cell>
-          <Table.Cell collapsing textAlign='right'>
+          <Table.Cell unstackable>
             <button><i className="edit icon"></i></button>
             <span> &nbsp; </span>
             <button><i className="trash icon"></i></button>
@@ -46,7 +47,7 @@ const TableExampleBasic = () => (
           <Table.Cell>2020/04/17</Table.Cell>
           <Table.Cell>10</Table.Cell>
           <Table.Cell>Incompleted</Table.Cell>
-          <Table.Cell  collapsing textAlign='right'>
+          <Table.Cell>
             <button><i className="edit icon"></i></button>
             <span> &nbsp; </span>
             <button><i className="trash icon"></i></button>
@@ -58,7 +59,7 @@ const TableExampleBasic = () => (
           <Table.Cell>2020/04/15</Table.Cell>
           <Table.Cell>3</Table.Cell>
           <Table.Cell>Incompleted</Table.Cell>
-          <Table.Cell collapsing textAlign='right'>
+          <Table.Cell>
             <button><i className="edit icon"></i></button>
             <span> &nbsp;  </span>
             <button><i className="trash icon"></i></button>
@@ -70,7 +71,7 @@ const TableExampleBasic = () => (
           <Table.Cell>2020/04/15</Table.Cell>
           <Table.Cell>2</Table.Cell>
           <Table.Cell>Incompleted</Table.Cell>
-          <Table.Cell  collapsing textAlign='right'>
+          <Table.Cell>
             <button><i className="edit icon"></i></button>
             <span> &nbsp; </span>
             <button><i className="trash icon"></i></button>
