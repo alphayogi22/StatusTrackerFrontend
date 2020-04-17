@@ -61,7 +61,7 @@ class TaskManager extends Component {
                     </Grid.Column>
 
                     <Grid.Column  mobile={15} tablet={6} computer={5}>
-                    <SemanticDatepicker label='End Date:' placeholder = 'Select Date' fluid id='toDate'/>
+                    <SemanticDatepicker label='End Date:' placeholder = 'End Date' fluid id='toDate'/>
                     </Grid.Column>
 
                     <Grid.Column  mobile={13} tablet={6} computer={4}>
