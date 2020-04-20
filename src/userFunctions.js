@@ -5,15 +5,16 @@ export const login = user => {
   return axios.post('http://localhost:8000/rest-auth/login/',
            JSON.stringify(user),
            {
-               headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+               headers: { 'Content-Type': 'application/json'}
            }
   )
             .then(response => {
                 console.log('Inside the login api call function');
-                localStorage.setItem('usertoken', 'response.data.token')
-                return response.data.token
+                console.log(response);
+                localStorage.setItem('isAuthenticated', true);
+                localStorage.setItem('Auth-Key', JSON.stringify(response.data.key));
             })
             .catch ( err => {
-                console.log(err);
+                console.log('error in userfunction');
             }) 
 }
