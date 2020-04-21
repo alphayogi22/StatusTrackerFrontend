@@ -13,8 +13,9 @@ export const login = user => {
                 console.log(response);
                 localStorage.setItem('isAuthenticated', true);
                 localStorage.setItem('Auth-Key', JSON.stringify(response.data.key));
+                return response;
             })
             .catch ( err => {
-                console.log('error in userfunction');
+                console.log(err);
             }) 
 }

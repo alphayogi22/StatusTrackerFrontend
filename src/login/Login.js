@@ -3,6 +3,7 @@ import { Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
 import { login } from '../userFunctions';
 
 
+
 class Login extends Component{
 
   constructor(props){
@@ -10,7 +11,7 @@ class Login extends Component{
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      flag:0,
     }
 
     this.onChange = this.onChange.bind(this)
@@ -22,29 +23,35 @@ class Login extends Component{
   }
 
   onSubmit = (e) =>{
-   console.log(this.state);
-   e.preventDefault();
+    e.preventDefault();
+    console.log(this.state);
+    
+ 
    
    const user = {
      email: this.state.email,
      password: this.state.password 
    }
-
    console.log(this.state);
-
+  
    //If login credential matches we will push them to the attendance
 
-   login(user).then(res => {
-    if (res) {
+   login(user).then(response => {
+    if (response)
+    {
     console.log('login Successful')
+     this.props.history.push(`/attendance`)
+    }
+
+   else{
+console.log('login fails')
+this.setState({flag: 1}); 
+console.log(this.state.flag);}
   }
-}
-   , error => {
-     console.log(error)
-   })
   
-  }
-  render(){
+  )
+  }  
+  render(){  
     return(
       <Grid centered>
       <Grid.Column mobile={14} tablet={8} computer={7}>
@@ -52,7 +59,13 @@ class Login extends Component{
           GPTW Status Tracker v2.0
         </Header>
         <Segment>
-          <Form size="big" onSubmit={this.onSubmit}>
+          <Form size="big" noValidate onSubmit={this.onSubmit}>
+            <div > 
+            {this.state.flag === 1 ?
+              <h3 style={{color: "red", padding: "10px"}}> 
+              {'You have entered an invalid username or password!'}
+               </h3> : null }
+            </div>
             <Form.Input
               fluid
               icon="user"
@@ -78,7 +91,7 @@ class Login extends Component{
             <Button 
             color="blue" 
             fluid size="big"
-            onChange={this.onChange}>
+            type="submit">
               Login
             </Button>
           </Form>
