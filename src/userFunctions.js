@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const login = user => {
-
   return axios.post('http://localhost:8000/rest-auth/login/',
            JSON.stringify(user),
            {
@@ -18,4 +17,21 @@ export const login = user => {
             .catch ( err => {
                 console.log(err);
             }) 
+}
+
+
+export const attendance = data => {
+    console.log('inside attendace API')
+    return axios.post('http://localhost:8000/api/status/',
+    JSON.stringify(data),
+    // {
+    //     headers: { 'Content-Type': 'application/json'}
+    // }
+).then(response => {
+    console.log('Inside the attendance api');
+    return(response);
+})
+.catch(err => {
+    console.log('attendance fail')
+})
 }

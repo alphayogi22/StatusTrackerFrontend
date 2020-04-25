@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Form, Grid, Header, Segment, Button } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import { attendance, authuser, authUser } from '../userFunctions';
+import axios from 'axios';
+
 
 class Attendance extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            status: 'Present',
+            user:'',
+            status: '',
+            startDate:'',
+            endDate:'',
+            remark:'',
             showDatePicker: false
         };
     }
@@ -23,10 +30,12 @@ class Attendance extends Component {
         { key: '7', value: 'Optional Holiday', text: 'Optional Holiday' }
     ];
 
-    statusChange = (e, {value}) => {
+    onChange = (e, {name, value}) => {
         this.setState({
-            status: value
-        });
+          [name]:value
+        },()=>console.log(this.state));
+
+        if(name=="status"){
         if (value === 'Present' || value === 'Work From Home' || value === 'Optional Holiday') {
             this.setState({
                 showDatePicker: false
@@ -36,8 +45,44 @@ class Attendance extends Component {
                 showDatePicker: true
             });
         }
+    }
     } 
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        console.log('submit button');
+ 
+           const data = {
+            user: this.state.user,
+            status: this.state.status,
+            startDate:this.state.startDate,
+            endDate:this.state.endDate,
+            remark:this.state.remark
+           }
+
+        const api = 'http://localhost:8000/rest-auth/user/'; 
+        const token = JSON.parse(localStorage.getItem('Auth-Key'));
+
+        axios.get(api , {headers: {"Authorization" : `Token ${token}`}})
+                    .then(res => {
+                     console.log(res.data.id);
+                     const user = res.data.id;
+                     this.setState({user});
+                     console.log(this.state);
+                     attendance(data).then(res => {
+                        console.log('Inside the attenance component');
+                          return(res);
+                      })
+                    })
+                     .catch((error) => {
+                                 console.log(error)
+                     });
+    
+        //  attendance(data).then(res => {
+        //                 console.log('Inside the attenance component');
+        //                   return(res);
+        //               })
+        }
     render() {
         return (
             <React.Fragment>
@@ -47,23 +92,24 @@ class Attendance extends Component {
                         Mark your status of the day
                     </Header>
                     <Segment>
-                        <Form size="big">
+                        <Form size="big" onSubmit={this.onSubmit}>
                             <Form.Select 
                             placeholder='Select' 
                             fluid label='Select your status:' 
                             id='status' 
+                            name='status'
                             options={this.statusOptions} 
-                            onChange={this.statusChange}
+                            onChange={this.onChange}
                             value={this.state.status}/>
                             {/* Below date pickers show only for certain statuses */}
                             { 
                             this.state.showDatePicker 
-                            ? <SemanticDatepicker label='From:' placeholder = 'Select Date' fluid id='fromDate'/> 
+                            ? <SemanticDatepicker label='From:' placeholder = 'Select Date' fluid id='startDate' name ='startDate'  onChange={this.onChange}/> 
                             : null
                             }
                             { 
                             this.state.showDatePicker 
-                            ? <SemanticDatepicker label='To:' placeholder = 'Select Date' fluid id='toDate'/> 
+                            ? <SemanticDatepicker label='To:' placeholder = 'Select Date' fluid id='endDate' name = 'endDate' onChange={this.onChange}/> 
                             : null
                             }
 
@@ -71,6 +117,8 @@ class Attendance extends Component {
                             placeholder='Enter your remarks here' 
                             label='Remarks' 
                             id='remarks'
+                            name = 'remark'
+                            onChange={this.onChange}
                             />
                             <Button type='submit'>Submit</Button>
                         </Form>
