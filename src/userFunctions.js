@@ -21,12 +21,12 @@ export const login = user => {
 
 
 export const attendance = data => {
-    console.log('inside attendace API')
+    console.log(data);
     return axios.post('http://localhost:8000/api/status/',
     JSON.stringify(data),
-    // {
-    //     headers: { 'Content-Type': 'application/json'}
-    // }
+    {
+        headers: { 'Content-Type': 'application/json'}
+    }
 ).then(response => {
     console.log('Inside the attendance api');
     return(response);
