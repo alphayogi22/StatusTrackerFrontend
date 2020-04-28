@@ -45,7 +45,7 @@ class Attendance extends Component {
         this.setState({
           showDatePicker: false,
           startDate: new Date(),
-          endDate: new Date()
+          endDate: new Date(),
         });
       } else {
         this.setState({
@@ -57,7 +57,10 @@ class Attendance extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('submit button');
+
+    const apiToGetCurrentUser = 'http://localhost:8000/rest-auth/user/';
+
+    const token = JSON.parse(localStorage.getItem('Auth-Key'));
 
     const data = {
       user: this.state.user,
@@ -67,32 +70,54 @@ class Attendance extends Component {
       remark: this.state.remark,
     };
 
-    const api = 'http://localhost:8000/rest-auth/user/';
-    const token = JSON.parse(localStorage.getItem('Auth-Key'));
-
     axios
-      .get(api, { headers: { Authorization: `Token ${token}` } })
+      .get(apiToGetCurrentUser, {
+        headers: { Authorization: `Token ${token}` },
+      })
       .then((res) => {
         const user = res.data.id;
         this.setState({ user });
-
-        data.startDate = data.startDate.toISOString();
-        data.endDate = data.endDate.toISOString();
+        data.startDate = new Date(
+          data.startDate.getFullYear(),
+          data.startDate.getMonth(),
+          data.startDate.getDate(),
+          5,
+          30,
+          0,
+          0
+        ).toISOString();
+        data.endDate = new Date(
+          data.endDate.getFullYear(),
+          data.endDate.getMonth(),
+          data.endDate.getDate() + 1,
+          5,
+          0,
+          0,
+          0
+        ).toISOString();
         data.user = res.data.id;
 
+        const apiToCheckExistingStatus = `http://localhost:8000/api/status?user=${data.user}&startDate=${data.startDate}&endDate=${data.endDate}`;
+
+        axios
+          .get(apiToCheckExistingStatus, {
+            headers: { Accept: 'application/json' },
+          })
+          .then((res) => {
+            if (!res.data.id) {
+              console.log('Update Status');
+            } else {
+              console.log('Insert Status');
+            }
+          });
+
         attendance(data).then((res) => {
-          console.log('Inside the attenance component');
           return res;
         });
       })
       .catch((error) => {
         console.log(error);
       });
-
-    //  attendance(data).then(res => {
-    //                 console.log('Inside the attenance component');
-    //                   return(res);
-    //               })
   };
   render() {
     return (
