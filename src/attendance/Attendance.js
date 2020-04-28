@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Grid, Header, Segment, Button } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
-import { attendance, authuser, authUser } from '../userFunctions';
+import { attendance} from '../userFunctions';
 import axios from 'axios';
 
 class Attendance extends Component {

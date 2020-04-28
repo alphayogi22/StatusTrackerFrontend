@@ -78,7 +78,12 @@ class TaskManager extends Component {
                                     <Segment>
                                         <Form size="small">
                                             <Form.Input fluid label='Task Name:' placeholder='Type here....' />
-                                            
+                                            <Form.Checkbox label='Part of my KRA' />
+
+                                            <Divider />
+                                            <Form.Input fluid label='No Of Hours:' placeholder='Type here....' />
+                                            <Divider />
+
                                             <Label basic>Start Time:</Label>
                                             <Grid columns={3}>
                                                     
@@ -123,7 +128,6 @@ class TaskManager extends Component {
                                             label='Remarks' 
                                             id='remarks'
                                             />
-                                            <Form.Checkbox label='Part of my KRA' />
                                         </Form>
                                         
                                     </Segment>
