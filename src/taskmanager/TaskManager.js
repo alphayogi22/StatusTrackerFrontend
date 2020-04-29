@@ -5,6 +5,20 @@ import SemanticDatepicker from 'react-semantic-ui-datepickers';
 
 
 class TaskManager extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          user: '',
+          task: '',
+          partOfKra: '',
+          fromDateTime: '',
+          toDateTime: '',
+          status: '',
+          totalHours:'',
+          remark:''
+        };
+      }
+    
 
     hoursOptions = [
         { key: 1, value: 1, text: 1 },

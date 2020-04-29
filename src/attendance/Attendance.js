@@ -32,8 +32,8 @@ class Attendance extends Component {
     this.setState(
       {
         [name]: value,
-      },
-      () => console.log(this.state)
+      }
+      ,() => console.log(this.state)
     );
 
     if (name === 'status') {
@@ -77,7 +77,9 @@ class Attendance extends Component {
       .then((res) => {
         const user = res.data.id;
         this.setState({ user });
-        data.startDate = new Date(
+
+
+      const startDate1 = new Date(
           data.startDate.getFullYear(),
           data.startDate.getMonth(),
           data.startDate.getDate(),
@@ -86,7 +88,9 @@ class Attendance extends Component {
           0,
           0
         ).toISOString();
-        data.endDate = new Date(
+
+
+      const endDate1 = new Date(
           data.endDate.getFullYear(),
           data.endDate.getMonth(),
           data.endDate.getDate() + 1,
@@ -95,29 +99,49 @@ class Attendance extends Component {
           0,
           0
         ).toISOString();
-        data.user = res.data.id;
 
-        const apiToCheckExistingStatus = `http://localhost:8000/api/status?user=${data.user}&startDate=${data.startDate}&endDate=${data.endDate}`;
+        console.log(startDate1, endDate1, data);
+        data.user = res.data.id;
+        data.startDate = data.startDate.toISOString();
+        data.endDate = data.endDate.toISOString();
+
+        const apiToCheckExistingStatus = `http://localhost:8000/api/status?user=${data.user}&startDate=${startDate1}&endDate=${endDate1}`;
 
         axios
           .get(apiToCheckExistingStatus, {
             headers: { Accept: 'application/json' },
           })
           .then((res) => {
-            if (!res.data.id) {
+            if (res.data.length > 0)
+            {
               console.log('Update Status');
-            } else {
+              console.log(res.data[0].id);
+
+              console.log(JSON.stringify(data));
+
+              const id = res.data[0].id 
+              
+              const apiToUpdateExistingStatus = `http://localhost:8000/api/status/${id}/`;
+              axios.put(apiToUpdateExistingStatus, data,
+              {
+                headers: { Accept: 'application/json'}
+              })
+              .then(response => {
+                console.log('Inside the updates status api');
+                return(response);
+               })
+                .catch((error) => {
+                console.log('update api fail');
+                });
+            } 
+            else{
               console.log('Insert Status');
+              attendance(data).then((res) => {
+                return res;
+              });
             }
           });
-
-        attendance(data).then((res) => {
-          return res;
-        });
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
   render() {
     return (
