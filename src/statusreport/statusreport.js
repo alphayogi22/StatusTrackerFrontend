@@ -40,17 +40,24 @@ class StatusReport extends Component {
                 console.log(statusDetailsResponse);
                 console.log(userNameResponse);
 
-                function mergeArrayObjects(userNameResponse, statusDetailsResponse) {
-                    return userNameResponse.map((item, i) => {
-                        if (item.id === statusDetailsResponse[i].id) {
-                            //merging two objects
-                            return Object.assign({}, item, statusDetailsResponse[i])
-                        }
-                    })
-                }
-                let finalStatusResponse = mergeArrayObjects(userNameResponse, statusDetailsResponse);
-                console.log(finalStatusResponse);
-                this.setState({ tableDetails: finalStatusResponse })
+                // function mergeArrayObjects(userNameResponse, statusDetailsResponse) {
+                //     return userNameResponse.map((item, i) => {
+                //         if (item.id === statusDetailsResponse[i].id) {
+                //             //merging two objects
+                //             return Object.assign({}, item, statusDetailsResponse[i])
+                //         }
+                //     })
+                // }
+                // let finalStatusResponse = mergeArrayObjects(userNameResponse, statusDetailsResponse);
+
+                let finalObjects = [];
+                        userNameResponse.map(element=>{
+                                statusDetailsResponse.map(inner=>{
+                                    if(element.id===inner.id)finalObjects.push({...element,...inner})
+                                          })
+                                        })
+                console.log(finalObjects);
+                this.setState({ tableDetails: finalObjects })
             })
         })
     }
