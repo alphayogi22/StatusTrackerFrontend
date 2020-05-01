@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Grid, Header, Segment, Button, Label, Divider, Modal, Container} from 'semantic-ui-react';
+import { Form, Grid, Header, Segment, Button, Divider, Modal, Container} from 'semantic-ui-react';
 import TableExampleBasic from './tasktable.js';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
-
+import TimeRange from 'react-time-range';
+import moment from 'moment';
+import axios from 'axios';
 
 class TaskManager extends Component {
     constructor(props) {
@@ -10,51 +12,55 @@ class TaskManager extends Component {
         this.state = {
           user: '',
           task: '',
-          partOfKra: '',
-          fromDateTime: '',
-          toDateTime: '',
+          partOfKra: false,
+          noOfHours:'',
+          startTime: '',
+          endTime: '',
           status: '',
-          totalHours:'',
-          remark:''
-        };
+          remark:''       
+         };
       }
     
-
-    hoursOptions = [
-        { key: 1, value: 1, text: 1 },
-        { key: 2, value: 2, text: 2 },
-        { key: 3, value: 3, text: 3 },
-        { key: 4, value: 4, text: 4 },
-        { key: 5, value: 5, text: 5 },
-        { key: 6, value: 6, text: 6 },
-        { key: 7, value: 7, text: 7 },
-        { key: 8, value: 8, text: 8 },
-        { key: 9, value: 9, text: 9 },
-        { key: 10, value: 10, text: 10 },
-        { key: 11, value: 11, text: 11 },
-        { key: 12, value: 12, text: 12 },
-    ];
-
-    minutesOptions = [
-        { key: 0, value: 0, text: 0 },
-        { key: 15, value: 15, text: 15 },
-        { key: 30, value: 30, text: 30 },
-        { key: 45, value: 45, text: 45 }
-    ];
-
-    ampmOptions = [
-        { key: '0', value: 'AM', text: 'AM' },
-        { key: '1', value: 'PM', text: 'PM' }
-    ];
+      toggleChange = () => {
+        this.setState({
+            partOfKra: !this.state.partOfKra,
+        });
+      }
 
     statusOptions = [
         { key: '0', value: 'Not Started', text: 'Not Started' },
         { key: '1', value: 'Work in Progress', text: 'Work in Progress' },
         { key: '2', value: 'Completed', text: 'Completed' }
     ];
+ 
 
+    onChange = (e, { name, value }) => {
+        this.setState(
+          {
+            [name]: value,
+          }
+          ,() => console.log(this.state)
+        );
+    }
+
+      onSubmit = (e) => {
+        e.preventDefault();
+        console.log('Submit button click');
+        const apiToGetCurrentUser = 'http://localhost:8000/rest-auth/user/';
+        const token = JSON.parse(localStorage.getItem('Auth-Key'));
+
+        axios
+        .get(apiToGetCurrentUser, {
+          headers: { Authorization: `Token ${token}` },
+        })
+        .then((res) => {
+          const user = res.data.id;
+          this.setState({ user });
+        });
+
+      }
     render() {
-
+        const { value } = this.state;
         return (    
             <Grid columns='equal'>
                      <Grid.Row >
@@ -71,7 +77,7 @@ class TaskManager extends Component {
                     </Grid.Column>
 
                     <Grid.Column mobile={15} tablet={6} computer={5}>
-                    <SemanticDatepicker label='Start Date:' placeholder = 'Select Date' fluid id='toDate'/>
+                    <SemanticDatepicker label='Start Date:' placeholder = 'Select Date' fluid id='startDate'/>
                     </Grid.Column>
 
                     <Grid.Column  mobile={15} tablet={6} computer={5}>
@@ -91,56 +97,52 @@ class TaskManager extends Component {
                                     </Header>
                                     <Segment>
                                         <Form size="small">
-                                            <Form.Input fluid label='Task Name:' placeholder='Type here....' />
-                                            <Form.Checkbox label='Part of my KRA' />
+                                            <Form.Input 
+                                            fluid label='Task Name:' 
+                                            placeholder='Type here....' 
+                                            id='task'
+                                            name='task'
+                                            onChange={this.onChange}/>
 
-                                            <Divider />
-                                            <Form.Input fluid label='No Of Hours:' placeholder='Type here....' />
+                                            <Form.Checkbox label='Part of my KRA' 
+                                            id='partOfKra'
+                                            name='partOfKra'
+                                            checked={this.state.partOfKra}
+                                            onChange={this.toggleChange}/>
                                             <Divider />
 
-                                            <Label basic>Start Time:</Label>
-                                            <Grid columns={3}>
-                                                    
-                                                <Grid.Row>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='Hrs' options={this.hoursOptions}/>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='Mins' options={this.minutesOptions}/>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='AM' options={this.ampmOptions}/>
-                                                    </Grid.Column>
-                                                </Grid.Row>
-                                            </Grid>
+                                            <Form.Input 
+                                            fluid label='No of hours:' 
+                                            id='noOfHours'
+                                            name='noOfHours'
+                                            onChange={this.onChange}/>
                                             <Divider />
-                                            <Label basic>End Time:</Label>
-                                            <Grid columns={3}>
-                                                    
-                                                <Grid.Row>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='Hrs' options={this.hoursOptions}/>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='Mins' options={this.minutesOptions}/>
-                                                    </Grid.Column>
-                                                    <Grid.Column>
-                                                        <Form.Select fluid placeholder='AM' options={this.ampmOptions}/>
-                                                    </Grid.Column>
-                                                </Grid.Row>
-                                            </Grid>
+
+                                            <TimeRange
+                                                    startLabel='Start Time:'
+                                                    endLabel ='End Time:'
+                                                    startMoment= {this.state.startTime}
+                                                    endMoment= {this.state.endTime}
+                                                    onChange={this.returnFunction}
+                                                />                                            
+                                        
                                             <Divider />
+
                                             <Form.Select 
                                             placeholder='Select' 
                                             fluid label='Select status:' 
                                             id='status' 
+                                            name='status'
                                             options={this.statusOptions} 
+                                            onChange={this.onChange}
                                             />
                                             <Divider />
                                             <Form.TextArea 
                                             placeholder='Enter your remarks here' 
                                             label='Remarks' 
-                                            id='remarks'
+                                            id='remark'
+                                            name='remark'
+                                            onChange={this.onChange}
                                             />
                                         </Form>
                                         
@@ -149,9 +151,8 @@ class TaskManager extends Component {
                                 </Grid>
                             </React.Fragment>
                             }
-                            actions={['cancel', { key: 'Submit', content: 'Submit', positive: true }]}
-                          />
-                        
+                            actions={['cancel', { key: 'Submit', content: 'Submit', positive: true, onSubmit: this.onSubmit}]}
+                          />   
                     </Grid.Column>
                     </Grid.Row>
 
