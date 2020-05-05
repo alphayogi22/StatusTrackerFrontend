@@ -3,8 +3,8 @@ import { Form, Grid, Header, Segment, Button, Divider, Modal, Container} from 's
 import TableExampleBasic from './tasktable.js';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import TimeRange from 'react-time-range';
-import moment from 'moment';
 import axios from 'axios';
+import '../taskmanager/TaskManager.css';
 
 class TaskManager extends Component {
     constructor(props) {
@@ -16,6 +16,7 @@ class TaskManager extends Component {
           noOfHours:'',
           startTime: '',
           endTime: '',
+          time:'',
           status: '',
           remark:''       
          };
@@ -43,6 +44,10 @@ class TaskManager extends Component {
         );
     }
 
+    onTimeClick = (time) =>{
+      console.log(time)
+    }
+
       onSubmit = (e) => {
         e.preventDefault();
         console.log('Submit button click');
@@ -56,6 +61,7 @@ class TaskManager extends Component {
         .then((res) => {
           const user = res.data.id;
           this.setState({ user });
+          console.log(this.state)
         });
 
       }
@@ -111,19 +117,23 @@ class TaskManager extends Component {
                                             onChange={this.toggleChange}/>
                                             <Divider />
 
-                                            <Form.Input 
-                                            fluid label='No of hours:' 
-                                            id='noOfHours'
-                                            name='noOfHours'
-                                            onChange={this.onChange}/>
+                                            <Form.Input
+                                              label = 'No Of Hours'
+                                              input = 'number'
+                                              max = {24}
+                                              name = 'noOfHours'
+                                              onChange={this.onChange}
+                                            />
                                             <Divider />
-
+                                             
                                             <TimeRange
+                                                    className = "rangecss"
                                                     startLabel='Start Time:'
                                                     endLabel ='End Time:'
                                                     startMoment= {this.state.startTime}
                                                     endMoment= {this.state.endTime}
-                                                    onChange={this.returnFunction}
+                                                    onChange={this.onTimeClick}
+                                                    value={this.state.time}
                                                 />                                            
                                         
                                             <Divider />
@@ -151,7 +161,8 @@ class TaskManager extends Component {
                                 </Grid>
                             </React.Fragment>
                             }
-                            actions={['cancel', { key: 'Submit', content: 'Submit', positive: true, onSubmit: this.onSubmit}]}
+                            actions={['cancel', {key: 'Submit', content: 'Submit', positive: true}]}
+                            onActionClick={this.onSubmit} 
                           />   
                     </Grid.Column>
                     </Grid.Row>

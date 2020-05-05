@@ -59,7 +59,7 @@ export const attendanceDetails = () => {
 
   const startDate1 = moment().format("YYYY-MM-DD");
 
-  const endDate1 = moment().add(1, "day").format("YYYY-MM-DD");
+  const endDate1 = moment().format("YYYY-MM-DD");
 
   const apiToGetExistingStatusDetails = `http://localhost:8000/api/status?startDate=${startDate1}&endDate=${endDate1}`;
 

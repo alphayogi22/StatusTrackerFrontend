@@ -1,0 +1,14 @@
+/* 
+.reactcss > .label {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+
+<Form.Field>
+<label>No Ff Hours</label>
+<input type='number' max={24} />
+</Form.Field>
+
+actions={['cancel', {key: 'Submit', content: 'Submit', positive: true}]}
+onActionClick={this.onSubmit}  */

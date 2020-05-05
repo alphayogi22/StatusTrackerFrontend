@@ -33,8 +33,8 @@ class Attendance extends Component {
     this.setState(
       {
         [name]: value,
-      },
-      () => console.log(this.state)
+      }
+      //,() => console.log(this.state)
     );
 
     if (name === "status") {
@@ -44,9 +44,7 @@ class Attendance extends Component {
         value === "Optional Holiday"
       ) {
         this.setState({
-          showDatePicker: false,
-          startDate: moment().format("YYYY-MM-DD"),
-          endDate: moment().format("YYYY-MM-DD"),
+          showDatePicker: false
         });
       } else {
         this.setState({
@@ -78,13 +76,30 @@ class Attendance extends Component {
       .then((res) => {
         const user = res.data.id;
         this.setState({ user });
-
+        
         console.log(this.state);
-        const startDate1 = moment().format("YYYY-MM-DD");
-        const endDate1 = moment().add(1, "day").format("YYYY-MM-DD");
 
+         let startDate1;
+         let endDate1;
+        if (this.state.status === "Present" ||
+            this.state.status === "Work From Home" ||
+            this.state.status ===  "Optional Holiday")
+           { 
+             console.log('inside if condition in status')
+            startDate1 = moment().format("YYYY-MM-DD");
+            endDate1 = moment().format("YYYY-MM-DD");
+           }
+          else {
+            console.log('inside else condition in status')
+            startDate1 = moment(new Date(data.startDate)).format("YYYY-MM-DD");
+            endDate1 = moment(new Date(data.endDate)).format("YYYY-MM-DD");
+          }
+    
         console.log(startDate1, endDate1, data);
         data.user = res.data.id;
+        data.startDate = startDate1;
+        data.endDate = endDate1;
+
 
         const apiToCheckExistingStatus = `http://localhost:8000/api/status?user=${data.user}&startDate=${startDate1}&endDate=${endDate1}`;
 
@@ -150,7 +165,7 @@ class Attendance extends Component {
                     fluid
                     id="startDate"
                     name="startDate"
-                    format={moment().format('YYYY-MM-DD')}
+                    format="YYYY-MM-DD"
                     onChange={this.onChange}
                     value={this.state.startDate}
                   />
@@ -162,7 +177,7 @@ class Attendance extends Component {
                     fluid
                     id="endDate"
                     name="endDate"
-                    format={moment().format('YYYY-MM-DD')}
+                    format="YYYY-MM-DD"
                     onChange={this.onChange}
                     value={this.state.endDate}
                   />
