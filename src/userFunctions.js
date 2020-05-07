@@ -74,3 +74,18 @@ export const attendanceDetails = () => {
       console.log("the get status details api fail");
     });
 };
+
+export const taskManager = (data) => {
+  console.log( JSON.stringify(data));
+  return axios
+    .post("http://localhost:8000/api/task/", JSON.stringify(data), {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((response) => {
+      console.log("Inside the task api");
+      return response;
+    })
+    .catch((err) => {
+      console.log("task api fail");
+    });
+};

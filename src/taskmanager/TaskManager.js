@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Form, Grid, Header, Segment, Button, Divider, Modal, Container} from 'semantic-ui-react';
 import TableExampleBasic from './tasktable.js';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
-import TimeRange from 'react-time-range';
+import ReactTimeSelection  from "react-time-selection";
 import axios from 'axios';
-import '../taskmanager/TaskManager.css';
+import '../App.css';
+import { taskManager } from '../userFunctions.js';
 
 class TaskManager extends Component {
     constructor(props) {
@@ -16,9 +17,8 @@ class TaskManager extends Component {
           noOfHours:'',
           startTime: '',
           endTime: '',
-          time:'',
           status: '',
-          remark:''       
+          remark:''      
          };
       }
     
@@ -40,19 +40,34 @@ class TaskManager extends Component {
           {
             [name]: value,
           }
-          ,() => console.log(this.state)
         );
     }
 
-    onTimeClick = (time) =>{
-      console.log(time)
-    }
+    onStartTimeClick = (time) =>{
+      this.setState({startTime:time })   
+     }
+
+     onEndTimeClick = (time) =>{
+      this.setState({endTime:time })   
+     }
 
       onSubmit = (e) => {
         e.preventDefault();
         console.log('Submit button click');
         const apiToGetCurrentUser = 'http://localhost:8000/rest-auth/user/';
         const token = JSON.parse(localStorage.getItem('Auth-Key'));
+
+        const data = {
+          user: this.state.user,
+          task: this.state.task,
+          partOfKra: this.state.partOfKra,
+          noOfHours: this.state.noOfHours,
+          startTime: this.state.startTime,
+          endTime: this.state.endTime,
+          status: this.state.status,
+          remark: this.state.remark,
+          Date:''  
+        };
 
         axios
         .get(apiToGetCurrentUser, {
@@ -61,7 +76,18 @@ class TaskManager extends Component {
         .then((res) => {
           const user = res.data.id;
           this.setState({ user });
-          console.log(this.state)
+          console.log(this.state.user);
+          console.log(this.state);
+          data.user = res.data.id;
+          console.log(data);
+
+          taskManager(data).then(res => {
+            return res;
+            
+          }).catch((error => {
+            console.log("Task Manager API call fail")
+          }))
+
         });
 
       }
@@ -125,19 +151,21 @@ class TaskManager extends Component {
                                               onChange={this.onChange}
                                             />
                                             <Divider />
-                                             
-                                            <TimeRange
-                                                    className = "rangecss"
-                                                    startLabel='Start Time:'
-                                                    endLabel ='End Time:'
-                                                    startMoment= {this.state.startTime}
-                                                    endMoment= {this.state.endTime}
-                                                    onChange={this.onTimeClick}
-                                                    value={this.state.time}
-                                                />                                            
-                                        
+                                            
+                                            <Form.Field>Start Time</Form.Field>
+                                            <ReactTimeSelection 
+                                              className = "ReactTime-input"
+                                              name = 'time'
+                                              onTimeChange= {this.onStartTimeClick}/>
                                             <Divider />
 
+                                            <Form.Field>End Time</Form.Field>
+                                            <ReactTimeSelection 
+                                              className = "ReactTime-input"
+                                              name = 'time'
+                                              onTimeChange= {this.onEndTimeClick}/>
+
+                
                                             <Form.Select 
                                             placeholder='Select' 
                                             fluid label='Select status:' 
@@ -146,7 +174,9 @@ class TaskManager extends Component {
                                             options={this.statusOptions} 
                                             onChange={this.onChange}
                                             />
+
                                             <Divider />
+                                            
                                             <Form.TextArea 
                                             placeholder='Enter your remarks here' 
                                             label='Remarks' 

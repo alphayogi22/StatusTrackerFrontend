@@ -17,6 +17,7 @@
     "react-scripts": "3.4.1",
     "react-semantic-ui-datepickers": "^2.4.0",
     "react-time-range": "^1.0.4",
+    "react-time-selection": "^1.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2"
   },

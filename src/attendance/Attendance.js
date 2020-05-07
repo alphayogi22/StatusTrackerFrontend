@@ -76,6 +76,7 @@ class Attendance extends Component {
       .then((res) => {
         const user = res.data.id;
         this.setState({ user });
+        console.log(this.state.user);
         
         console.log(this.state);
 
@@ -123,7 +124,8 @@ class Attendance extends Component {
                 })
                 .then((response) => {
                   console.log("Inside the updates status api");
-                  return response;
+                  this.props.history.push(`/attendanceupdated`)
+                  // return response;
                 })
                 .catch((error) => {
                   console.log("update api fail");
@@ -131,7 +133,9 @@ class Attendance extends Component {
             } else {
               console.log("Insert Status");
               attendance(data).then((res) => {
-                return res;
+                this.props.history.push(`/attendancemarked`)
+                // return res;
+                // this.props.history.push(`/attendancemarked`)
               });
             }
           });

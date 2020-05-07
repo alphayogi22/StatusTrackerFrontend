@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.ReactTime-input {
+  width: 48px!important;
+  height: 29.64286px!important;
+}
