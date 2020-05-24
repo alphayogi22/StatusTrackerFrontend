@@ -6,7 +6,7 @@ import {Grid} from 'semantic-ui-react';
 class AttendanceUpdated extends Component {
     render(){
         return(
-            <Grid centered>
+            <Grid centered >
             <div className="ui success message">
                     <i className="close icon"></i>
                     <div class="header">

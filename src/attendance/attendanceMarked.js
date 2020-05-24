@@ -5,7 +5,7 @@ import {Grid} from 'semantic-ui-react';
 class AttendanceMarked extends Component {
     render(){
         return(
-            <Grid centered>
+            <Grid centered  mobile={12} tablet={12} computer={12}>
             <div class="ui success message">
                     <i class="close icon"></i>
                     <div class="header">

@@ -52,7 +52,7 @@ class StatusReport extends Component {
   }
   render() {
     return (
-      <Grid>
+      <Grid>  
         <Grid.Row>
           <Grid.Column mobile={12} tablet={6} computer={2}>
             <select class="ui fluid search selection dropdown">

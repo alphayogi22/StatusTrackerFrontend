@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar>
-        <Container>
+        <Container style={{height: "70vh"}}>
           <Routes></Routes>
         </Container>
         </Navbar>

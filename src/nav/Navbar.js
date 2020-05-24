@@ -25,7 +25,7 @@ const Navbar = (props) => {
        </Container>
       </Menu>
 
-    <Sidebar.Pushable as={Segment}>
+    <Sidebar.Pushable as={Segment} >
       <Sidebar
         as={Menu}
         animation='overlay'
@@ -36,6 +36,7 @@ const Navbar = (props) => {
         visible={visible}
         width='thin'
         direction='left'
+        style={{height: "70vh"}}
       >
         <Menu.Item  header>
           <Image size="mini" src={require("../assests/logo/gptw_logo.png")} href="/" />
@@ -61,6 +62,9 @@ const Navbar = (props) => {
           <Link to="/statusreport" onClick={()=>{setVisible(false)}}><Icon name='table'></Icon>Status Report</Link>
         </Menu.Item>
 
+        <Menu.Item name="logout">
+          <Link to="/logout" onClick={()=>{setVisible(false)}}><Icon name='sign-out'></Icon>Logout</Link>
+        </Menu.Item>
       </Sidebar>
 
       <Sidebar.Pusher>

@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import { Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
 import { login } from '../userFunctions';
 
-
-
 class Login extends Component{
 
   constructor(props){
@@ -39,8 +37,8 @@ class Login extends Component{
    login(user).then(response => {
     if (response)
     {
-    console.log('login Successful')
-     this.props.history.push(`/attendance`)
+     console.log('login Successful');
+     this.props.history.push(`/attendance`); 
     }
 
    else{
